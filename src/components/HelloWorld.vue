@@ -3,81 +3,64 @@
     <div class="form__attributes">
       <h2>Атрибуты формы</h2>
       <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
-        <label class="form__label" for="name">Имя*</label>
-        <input class="form__input" v-model="name" id="name" />
-        <small class="error" v-if="!$v.name.required && $v.name.$dirty">Введите имя</small>
+        <label for="name">Имя*</label>
+        <input id="name" v-model="name" />
+        <small class="error" v-if="!$v.name.required">Введите имя</small>
       </div>
 
       <div class="form-group" :class="{ 'form-group--error': $v.surname.$error }">
         <label for="surname">Фамилия*</label>
-        <input v-model="surname" id="surname" />
-        <small class="error" v-if="!$v.surname.required && $v.surname.$dirty">Введите фамилию</small>
+        <input id="surname" v-model="surname" />
+        <small class="error" v-if="!$v.surname.required">Введите фамилию</small>
       </div>
 
       <div class="form-group">
-        <label class="form__label" for="fathers-name">Отчество</label>
-        <input class="form__input" id="fathers-name" />
+        <label for="fathers-name">Отчество</label>
+        <input id="fathers-name" />
       </div>
 
-      <div class="form-group" :class="{ 'form-group--error': $v.birthDay.$error }">
-        <label for="birth-day">День рождения*</label>
-        <select class="number-input" id="birth-day" v-model="birthDay">
-          <option v-for="index in 31" :key="index">{{ index }}</option>
-        </select>
-        <small class="error" v-if="!$v.birthDay.required && $v.birthDay.$dirty">Выберите день</small>
+      <div class="form-group" :class="{ 'form-group--error': $v.birthDate.$error }">
+        <label for="birth-date">Дата рождения*</label>
+        <input id="birth-date" type="number" v-model="birthDate" placeholder="ДД.ММ.ГГГГ" />
+        <small class="error" v-if="!$v.birthDate.required">Введите дату рождения</small>
       </div>
 
-      <div class="form-group" :class="{ 'form-group--error': $v.birthMonth.$error }">
-        <label for="birth-month">Месяц рождения*</label>
-        <select class="number-input" id="birth-month" v-model="birthMonth">
-          <option>Январь</option>
-          <option>Февраль</option>
-          <option>Март</option>
-          <option>Апрель</option>
-          <option>Май</option>
-          <option>Июнь</option>
-          <option>Июль</option>
-          <option>Август</option>
-          <option>Сентябрь</option>
-          <option>Октябрь</option>
-          <option>Ноябрь</option>
-          <option>Декабрь</option>
-        </select>
-        <small class="error" v-if="!$v.birthMonth.required && $v.birthMonth.$dirty">Выберите месяц</small>
-      </div>
-
-      <div class="form-group">
-        <label for="birth-year">Год рождения*</label>
-        <input class="number-input" id="birth-month" type="number" value="2020" disabled />
-      </div>
-
-      <div class="form-group" :class="{ 'form-group--error': $v.birthMonth.$error }">
+      <div class="form-group" :class="{ 'form-group--error': $v.phoneNumber.$error }">
         <label for="phone-number">Номер телефона*</label>
-        <input v-model="phoneNumber" id="phone-number" />
+        <input id="phone-number" type="number" v-model="phoneNumber" placeholder="7 XXX XXX XXXX" />
         <small
           class="error"
-          v-if="!$v.phoneNumber.minValue"
-        >Phone must have at least {{$v.phoneNumber.$params.minValue.min}} numbers.</small>
+          v-if="!$v.phoneNumber.minLength"
+        >Номер телефона должен быть не менее {{$v.phoneNumber.$params.minLength.min}} символов.</small>
+        <small
+          class="error"
+          v-if="!$v.phoneNumber.maxLength"
+        >Номер телефона должен быть не более {{$v.phoneNumber.$params.maxLength.max}} символов.</small>
+        <small class="error" v-if="!$v.phoneNumber.required">Введите номер телефона</small>
       </div>
 
       <div class="form-group">
         <label for="sex">Пол</label>
-        <input v-model="sex" id="sex" />
+        <select id="sex" v-model="sex">
+          <option>Женский</option>
+          <option>Мужской</option>
+        </select>
       </div>
 
-      <!-- <div class="form-group">
+      <div class="form-group" :class="{ 'form-group--error': $v.clientType.$error }">
         <label for="client-type">Группа клиентов*.</label>
-        <select id="client-type" v-model="selected" multiple>
+        <select id="client-type" v-model="clientType" multiple>
           <option>VIP</option>
           <option>Проблемные</option>
           <option>ОМС</option>
         </select>
+        <small class="error" v-if="!$v.clientType.required">Выберите группу клиентов</small>
       </div>
 
       <div class="form-group">
         <label for="attending-doctor">Лечащий врач.</label>
-        <select id="attending-doctor" v-model="selected">
-          <option disabled value>Please select one</option>
+        <select id="attending-doctor" v-model="attendingDoctor">
+          <option disabled value>Выберите один</option>
           <option>Иванов</option>
           <option>Захаров</option>
           <option>Чернышева</option>
@@ -86,9 +69,87 @@
 
       <div class="form-group">
         <label for="sms">Не отправлять СМС.</label>
-        <input id="sms" type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
-      </div> -->
+        <input id="sms" type="checkbox" v-model="sms" true-value="yes" false-value="no" />
+      </div>
     </div>
+
+    <div class="form__address">
+      <h2>Адрес</h2>
+      <div class="form-group">
+        <label for="cityIndex">Индекс</label>
+        <input id="cityIndex" v-model="cityIndex" />
+      </div>
+
+      <div class="form-group">
+        <label for="country">Страна</label>
+        <input id="country" v-model="country" />
+      </div>
+
+      <div class="form-group">
+        <label for="region">Область</label>
+        <input id="region" v-model="region" />
+      </div>
+
+      <div class="form-group" :class="{ 'form-group--error': $v.city.$error }">
+        <label for="city">Город*</label>
+        <input id="city" v-model="city" />
+        <small class="error" v-if="!$v.city.required">Введите город</small>
+      </div>
+
+      <div class="form-group">
+        <label for="street">Улица</label>
+        <input id="street" v-model="street" />
+      </div>
+
+      <div class="form-group">
+        <label for="house">Дом</label>
+        <input id="house" v-model="house" />
+      </div>
+    </div>
+
+    <div class="form__documents">
+      <h2>Паспорт</h2>
+
+      <div class="form-group" :class="{ 'form-group--error': $v.documentType.$error }">
+        <label for="document-type">Тип документа*.</label>
+        <select id="document-type" v-model="documentType">
+          <option disabled value>Выберите один</option>
+          <option>Паспорт</option>
+          <option>Свидетельство о рождении</option>
+          <option>Вод. удостоверение</option>
+        </select>
+        <small class="error" v-if="!$v.documentType.required">Выберите тип документа</small>
+      </div>
+
+      <div class="form-group">
+        <label for="doc-serial">Серия</label>
+        <input id="doc-serial" v-model="docSerial" />
+      </div>
+
+      <div class="form-group">
+        <label for="doc-number">Номер</label>
+        <input id="doc-number" v-model="docNumber" />
+      </div>
+
+      <div class="form-group">
+        <label for="issued-by">Кем выдан</label>
+        <input id="issued-by" v-model="issuedBy" />
+      </div>
+
+      <div class="form-group" :class="{ 'form-group--error': $v.issuedDate.$error }">
+        <label for="issued-date">Дата выдачи*</label>
+        <input id="issued-date" type="number" v-model="issuedDate" placeholder="ДД.ММ.ГГГГ" />
+        <small class="error" v-if="!$v.issuedDate.required">Введите дату выдачи</small>
+      </div>
+
+      <div
+        class="test"
+        v-bind:style="{ opacity: test, visibility: test2 }"
+      >
+        <h2>Клиент успешно создан</h2>
+      </div>
+    </div>
+
     <button type="submit">Submit</button>
   </form>
 </template>
@@ -99,10 +160,25 @@ export default {
   data: () => ({
     name: "",
     surname: "",
-    birthDay: "",
-    birthMonth: "",
+    birthDate: "",
     phoneNumber: "",
-    sex: ""
+    sex: "",
+    clientType: [],
+    attendingDoctor: "",
+    sms: false,
+    cityIndex: "",
+    country: "",
+    region: "",
+    city: "",
+    street: "",
+    house: "",
+    documentType: "",
+    docSerial: "",
+    docNumber: "",
+    issuedBy: "",
+    issuedDate: "",
+    test: 0,
+    test2: 'hidden',
   }),
   validations: {
     name: {
@@ -111,16 +187,25 @@ export default {
     surname: {
       required,
     },
-    birthDay: {
-      required,
-    },
-    birthMonth: {
+    birthDate: {
       required,
     },
     phoneNumber: {
       required,
       minLength: minLength(11),
-      maxLength: maxLength(11)
+      maxLength: maxLength(11),
+    },
+    clientType: {
+      required,
+    },
+    city: {
+      required,
+    },
+    documentType: {
+      required,
+    },
+    issuedDate: {
+      required,
     },
   },
   methods: {
@@ -128,8 +213,24 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.submitStatus = "ERROR";
+        this.test2 = 'hidden';
+        this.test = 0;
+      } else {
+        this.submitStatus = "PENDING";
+        setTimeout(() => {
+          this.submitStatus = "OK";
+          this.test2 = 'unset';
+          this.test = 1;
+            this.test = 0;
+          setTimeout(() => {
+            this.test2 = 'hidden';
+          }, 2000);
+        }, 500);
       }
     },
+    // test() {
+    //   this.test = true;
+    // },
   },
 };
 </script>
@@ -149,7 +250,14 @@ form {
 
 .form-group {
   word-break: break-all;
-  margin: 10px;
+  margin: 20px 10px;
+  display: flex;
+  position: relative;
+}
+
+small {
+  position: absolute;
+  left: 440px;
 }
 
 input:focus,
@@ -160,6 +268,14 @@ select {
 .form-group--error input,
 .form-group--error select {
   border-color: red;
+}
+
+.form-group--error small {
+  visibility: unset;
+}
+
+small {
+  visibility: hidden;
 }
 
 label {
@@ -173,8 +289,15 @@ select {
   width: 200px;
 }
 
-.number-input {
-  /* width: 50px !important; */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .validate {
@@ -217,5 +340,21 @@ select {
 
 .error:focus {
   outline-color: #f99;
+}
+
+.test {
+  width: 500px;
+  height: 70px;
+  border-radius: 15px;
+  background-color: rgba(7, 250, 32, 0.85);
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-250px);
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
+  transition: opacity 1s;
 }
 </style>
