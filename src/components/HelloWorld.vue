@@ -4,7 +4,7 @@
       <h2>Атрибуты формы</h2>
       <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
         <label for="name">Имя*</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <input id="name" v-model="name" />
           <small class="error" v-if="!$v.name.required">Введите имя</small>
         </div>
@@ -12,7 +12,7 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.surname.$error }">
         <label for="surname">Фамилия*</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <input id="surname" v-model="surname" />
           <small class="error" v-if="!$v.surname.required">Введите фамилию</small>
         </div>
@@ -25,7 +25,7 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.birthDate.$error }">
         <label for="birth-date">Дата рождения*</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <input id="birth-date" type="number" v-model="birthDate" placeholder="ДД.ММ.ГГГГ" />
           <small class="error" v-if="!$v.birthDate.required">Введите дату рождения</small>
         </div>
@@ -33,7 +33,7 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.phoneNumber.$error }">
         <label for="phone-number">Номер телефона*</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <input id="phone-number" type="number" v-model="phoneNumber" placeholder="7 XXX XXX XXXX" />
           <small
             class="error"
@@ -57,7 +57,7 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.clientType.$error }">
         <label for="client-type">Группа клиентов*.</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <select id="client-type" v-model="clientType" multiple>
             <option>VIP</option>
             <option>Проблемные</option>
@@ -102,7 +102,7 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.city.$error }">
         <label for="city">Город*</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <input id="city" v-model="city" />
           <small class="error" v-if="!$v.city.required">Введите город</small>
         </div>
@@ -124,7 +124,7 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.documentType.$error }">
         <label for="document-type">Тип документа*.</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <select id="document-type" v-model="documentType">
             <option disabled value>Выберите один</option>
             <option>Паспорт</option>
@@ -152,7 +152,7 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.issuedDate.$error }">
         <label for="issued-date">Дата выдачи*</label>
-        <div class="flex">
+        <div class="form-group__input-wrapper">
           <input id="issued-date" type="number" v-model="issuedDate" placeholder="ДД.ММ.ГГГГ" />
           <small class="error" v-if="!$v.issuedDate.required">Введите дату выдачи</small>
         </div>
@@ -163,7 +163,7 @@
       </div>
     </div>
 
-    <button type="submit">Submit</button>
+    <button id="submit" type="submit">Submit</button>
   </form>
 </template>
 
@@ -171,6 +171,7 @@
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
   data: () => ({
+    // v-model для класса .form__attributes
     name: "",
     surname: "",
     birthDate: "",
@@ -179,17 +180,20 @@ export default {
     clientType: [],
     attendingDoctor: "",
     sms: false,
+    // v-model для класса .form__address
     cityIndex: "",
     country: "",
     region: "",
     city: "",
     street: "",
     house: "",
+    // v-model для класса .form__documents
     documentType: "",
     docSerial: "",
     docNumber: "",
     issuedBy: "",
     issuedDate: "",
+    // v-model стили для .success-block
     opacity: 0,
     visibility: "hidden",
   }),
@@ -230,12 +234,15 @@ export default {
         this.submitStatus = "PENDING";
         setTimeout(() => {
           this.submitStatus = "OK";
+          // делаем .success-block видимым
           this.visibility = "unset";
           this.opacity = 1;
           setTimeout(() => {
+            // устанавливаем 2 секунды для скрытия .success-block при помощи свойства transiton css
             this.opacity = 0;
           }, 2000);
           setTimeout(() => {
+            // окончательно скрываем .success-block
             this.visibility = "hidden";
           }, 4000);
         }, 500);
@@ -246,130 +253,115 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-body {
-  background-color: #ede8f6;
-}
+<style scoped lang="sass">
+$form-BGcolor: rgba(205, 225, 247, 1)
 
-form {
-  background-color: #fff;
-  border-radius: 5px;
-  /* width: 500px; */
-  padding: 15px 10px;
-}
+form
+  background-color: $form-BGcolor
+  border-radius: 25px
+  box-sizing: border-box
+  margin: 0 auto
+  max-width: 500px
+  padding: 15px 30px
+  @media screen and (max-width: 500px)
+    max-width: 300px
 
-.form-group {
-  word-break: break-all;
-  margin: 30px 10px;
-  display: flex;
-  position: relative;
-}
+.form-group
+  display: flex
+  margin: 30px 0
+  justify-content: space-between
+  position: relative
+  max-width: 500px;
 
-small {
-  font-size: 10px;
-  /* left: 440px; */
-  bottom: -15px;
-  position: absolute;
-  visibility: hidden;
-}
+  small
+    bottom: -15px
+    font-size: 10px
+    position: absolute
+    visibility: hidden
 
-.flex {
-  display: flex;
-  flex-direction: column;
-}
+  &--error input,
+  &--error select
+    border-color: red
 
-input:focus,
-select {
-  outline: none;
-}
+  &--error small
+    visibility: unset
+  
+  @media screen and (max-width: 500px)
+    flex-direction: column
+    align-items: center
 
-.form-group--error input,
-.form-group--error select {
-  border-color: red;
-}
+.form-group__input-wrapper
+  display: flex
+  flex-direction: column
 
-.form-group--error small {
-  visibility: unset;
-}
+label
+  display: block
+  @media screen and (max-width: 500px)
+    align-self: baseline
 
-label {
-  display: inline-block;
-  width: 150px;
-  margin: 0 50px 0 0;
-}
+input
+  background: white
+  border: 1px solid silver
+  border-radius: 4px
+  padding: 5px 10px
+  &:not([type="checkbox"])
+    box-sizing: border-box
+    width: 200px
+  &:focus
+    outline: none
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button
+    margin: 0
+    -webkit-appearance: none
+  &[type="number"]
+    -moz-appearance: textfield
 
-input:not([type="checkbox"]),
-select {
-  width: 200px;
-  box-sizing: border-box;
-}
+select
+  box-sizing: border-box
+  width: 200px
+  outline: none
+  background: white
+  border: 1px solid silver
+  border-radius: 4px
+  padding: 5px 10px
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+.error
+  color: red
+  &:focus
+    outline-color: #f99
 
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
+.success-block
+  background-color: rgba(255, 250, 208, 1)
+  border-radius: 15px
+  left: 50%
+  position: fixed
+  text-align: center
+  transform: translateX(-50%)
+  transition: opacity 1s
+  top: 5%
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  width: 50%
 
-.validate {
-  border-color: #ef9a9a;
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 10px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: transparent;
-  transition: background-color 2s;
-}
+#submit
+  background-color: #fff
+  border: none
+  border-radius: 15px
+  display: block
+  font-size: 20px
+  margin: 0 auto
+  outline: none
+  padding: 15px 20px
+  &:active
+    background-color: rgba(253, 115, 154, 1)
+  @media screen and (max-width: 500px)
+    margin: 0
 
-.validate-message {
-  font-size: 20px;
-  color: #fff;
-}
-
-input,
-select {
-  border: 1px solid silver;
-  border-radius: 4px;
-  background: white;
-  padding: 5px 10px;
-}
-
-.dirty {
-  border-color: #5a5;
-  background: #efe;
-}
-
-.dirty:focus {
-  outline-color: #8e8;
-}
-
-.error {
-  color: red;
-}
-
-.error:focus {
-  outline-color: #f99;
-}
-
-.success-block {
-  width: 500px;
-  height: 70px;
-  border-radius: 15px;
-  background-color: rgba(7, 250, 32, 0.85);
-  position: fixed;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-250px);
-  -webkit-user-select: none; /* Chrome all / Safari all */
-  -moz-user-select: none; /* Firefox all */
-  -ms-user-select: none; /* IE 10+ */
-  user-select: none; /* Likely future */
-  transition: opacity 1s;
-}
+.success-block h2
+  @media screen and (max-width: 500px)
+    font-size: 15px
+    padding: 0 10px
+    box-sizing: border-box
 </style>
