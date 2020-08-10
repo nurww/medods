@@ -4,14 +4,18 @@
       <h2>Атрибуты формы</h2>
       <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
         <label for="name">Имя*</label>
-        <input id="name" v-model="name" />
-        <small class="error" v-if="!$v.name.required">Введите имя</small>
+        <div class="flex">
+          <input id="name" v-model="name" />
+          <small class="error" v-if="!$v.name.required">Введите имя</small>
+        </div>
       </div>
 
       <div class="form-group" :class="{ 'form-group--error': $v.surname.$error }">
         <label for="surname">Фамилия*</label>
-        <input id="surname" v-model="surname" />
-        <small class="error" v-if="!$v.surname.required">Введите фамилию</small>
+        <div class="flex">
+          <input id="surname" v-model="surname" />
+          <small class="error" v-if="!$v.surname.required">Введите фамилию</small>
+        </div>
       </div>
 
       <div class="form-group">
@@ -21,22 +25,26 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.birthDate.$error }">
         <label for="birth-date">Дата рождения*</label>
-        <input id="birth-date" type="number" v-model="birthDate" placeholder="ДД.ММ.ГГГГ" />
-        <small class="error" v-if="!$v.birthDate.required">Введите дату рождения</small>
+        <div class="flex">
+          <input id="birth-date" type="number" v-model="birthDate" placeholder="ДД.ММ.ГГГГ" />
+          <small class="error" v-if="!$v.birthDate.required">Введите дату рождения</small>
+        </div>
       </div>
 
       <div class="form-group" :class="{ 'form-group--error': $v.phoneNumber.$error }">
         <label for="phone-number">Номер телефона*</label>
-        <input id="phone-number" type="number" v-model="phoneNumber" placeholder="7 XXX XXX XXXX" />
-        <small
-          class="error"
-          v-if="!$v.phoneNumber.minLength"
-        >Номер телефона должен быть не менее {{$v.phoneNumber.$params.minLength.min}} символов.</small>
-        <small
-          class="error"
-          v-if="!$v.phoneNumber.maxLength"
-        >Номер телефона должен быть не более {{$v.phoneNumber.$params.maxLength.max}} символов.</small>
-        <small class="error" v-if="!$v.phoneNumber.required">Введите номер телефона</small>
+        <div class="flex">
+          <input id="phone-number" type="number" v-model="phoneNumber" placeholder="7 XXX XXX XXXX" />
+          <small
+            class="error"
+            v-if="!$v.phoneNumber.minLength"
+          >Введите не менее {{$v.phoneNumber.$params.minLength.min}} символов.</small>
+          <small
+            class="error"
+            v-if="!$v.phoneNumber.maxLength"
+          >Введите не более {{$v.phoneNumber.$params.maxLength.max}} символов.</small>
+          <small class="error" v-if="!$v.phoneNumber.required">Введите номер телефона</small>
+        </div>
       </div>
 
       <div class="form-group">
@@ -49,12 +57,14 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.clientType.$error }">
         <label for="client-type">Группа клиентов*.</label>
-        <select id="client-type" v-model="clientType" multiple>
-          <option>VIP</option>
-          <option>Проблемные</option>
-          <option>ОМС</option>
-        </select>
-        <small class="error" v-if="!$v.clientType.required">Выберите группу клиентов</small>
+        <div class="flex">
+          <select id="client-type" v-model="clientType" multiple>
+            <option>VIP</option>
+            <option>Проблемные</option>
+            <option>ОМС</option>
+          </select>
+          <small class="error" v-if="!$v.clientType.required">Выберите группу клиентов</small>
+        </div>
       </div>
 
       <div class="form-group">
@@ -92,8 +102,10 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.city.$error }">
         <label for="city">Город*</label>
-        <input id="city" v-model="city" />
-        <small class="error" v-if="!$v.city.required">Введите город</small>
+        <div class="flex">
+          <input id="city" v-model="city" />
+          <small class="error" v-if="!$v.city.required">Введите город</small>
+        </div>
       </div>
 
       <div class="form-group">
@@ -112,13 +124,15 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.documentType.$error }">
         <label for="document-type">Тип документа*.</label>
-        <select id="document-type" v-model="documentType">
-          <option disabled value>Выберите один</option>
-          <option>Паспорт</option>
-          <option>Свидетельство о рождении</option>
-          <option>Вод. удостоверение</option>
-        </select>
-        <small class="error" v-if="!$v.documentType.required">Выберите тип документа</small>
+        <div class="flex">
+          <select id="document-type" v-model="documentType">
+            <option disabled value>Выберите один</option>
+            <option>Паспорт</option>
+            <option>Свидетельство о рождении</option>
+            <option>Вод. удостоверение</option>
+          </select>
+          <small class="error" v-if="!$v.documentType.required">Выберите тип документа</small>
+        </div>
       </div>
 
       <div class="form-group">
@@ -138,14 +152,13 @@
 
       <div class="form-group" :class="{ 'form-group--error': $v.issuedDate.$error }">
         <label for="issued-date">Дата выдачи*</label>
-        <input id="issued-date" type="number" v-model="issuedDate" placeholder="ДД.ММ.ГГГГ" />
-        <small class="error" v-if="!$v.issuedDate.required">Введите дату выдачи</small>
+        <div class="flex">
+          <input id="issued-date" type="number" v-model="issuedDate" placeholder="ДД.ММ.ГГГГ" />
+          <small class="error" v-if="!$v.issuedDate.required">Введите дату выдачи</small>
+        </div>
       </div>
 
-      <div
-        class="test"
-        v-bind:style="{ opacity: test, visibility: test2 }"
-      >
+      <div class="success-block" v-bind:style="{ opacity: opacity, visibility: visibility }">
         <h2>Клиент успешно создан</h2>
       </div>
     </div>
@@ -177,8 +190,8 @@ export default {
     docNumber: "",
     issuedBy: "",
     issuedDate: "",
-    test: 0,
-    test2: 'hidden',
+    opacity: 0,
+    visibility: "hidden",
   }),
   validations: {
     name: {
@@ -213,24 +226,21 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.submitStatus = "ERROR";
-        this.test2 = 'hidden';
-        this.test = 0;
       } else {
         this.submitStatus = "PENDING";
         setTimeout(() => {
           this.submitStatus = "OK";
-          this.test2 = 'unset';
-          this.test = 1;
-            this.test = 0;
+          this.visibility = "unset";
+          this.opacity = 1;
           setTimeout(() => {
-            this.test2 = 'hidden';
+            this.opacity = 0;
           }, 2000);
+          setTimeout(() => {
+            this.visibility = "hidden";
+          }, 4000);
         }, 500);
       }
     },
-    // test() {
-    //   this.test = true;
-    // },
   },
 };
 </script>
@@ -250,14 +260,22 @@ form {
 
 .form-group {
   word-break: break-all;
-  margin: 20px 10px;
+  margin: 30px 10px;
   display: flex;
   position: relative;
 }
 
 small {
+  font-size: 10px;
+  /* left: 440px; */
+  bottom: -15px;
   position: absolute;
-  left: 440px;
+  visibility: hidden;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
 }
 
 input:focus,
@@ -274,10 +292,6 @@ select {
   visibility: unset;
 }
 
-small {
-  visibility: hidden;
-}
-
 label {
   display: inline-block;
   width: 150px;
@@ -287,6 +301,7 @@ label {
 input:not([type="checkbox"]),
 select {
   width: 200px;
+  box-sizing: border-box;
 }
 
 input::-webkit-outer-spin-button,
@@ -342,7 +357,7 @@ select {
   outline-color: #f99;
 }
 
-.test {
+.success-block {
   width: 500px;
   height: 70px;
   border-radius: 15px;
